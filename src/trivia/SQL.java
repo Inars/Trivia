@@ -7,8 +7,6 @@ public class SQL {
     private static String USERNAME = "root";
     private static String PASSWORD = "1361995";
     private static Connection con;
-    private static PreparedStatement ps;
-    private static ResultSet rs;
     
     public static void startConnection(){
         try{
@@ -21,12 +19,6 @@ public class SQL {
     
     public static void endConnection(){
         try{
-            if (rs != null) {
-                rs.close();
-            }
-            if (ps != null) {
-                ps.close();
-            }
             if (con != null) {
                 con.close();
             }
@@ -35,15 +27,45 @@ public class SQL {
         }
     }
     
-    public static void insert(){
-        
+    public static boolean insert(String sql){
+        try{
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.executeUpdate();
+            return true;
+        }catch(SQLException ex){
+            System.err.println(ex.getMessage());
+            return false;
+        }
     }
     
-    public static void update(){
-        
+    public static boolean update(String sql){
+        try{
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.executeQuery();
+            return true;
+        }catch(SQLException ex){
+            return false;
+        }
     }
     
-    public static void delete(){
-        
+    public static boolean delete(String sql){
+        try{
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.executeQuery();
+            return true;
+        }catch(SQLException ex){
+            System.err.println(ex.getMessage());
+            return false;
+        }
+    }
+    
+    public static ResultSet select(String sql){
+        try{
+            PreparedStatement statement = con.prepareStatement(sql);
+            return statement.executeQuery();
+        }catch(SQLException ex){
+            System.err.println(ex.getMessage());
+            return null;
+        }
     }
 }
