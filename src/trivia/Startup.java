@@ -4,7 +4,7 @@ public class Startup extends javax.swing.JFrame {
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnNewGame;
     private javax.swing.JButton btnViewScores;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblLogo;
     private javax.swing.JPanel jPanel1;
     private static java.awt.GraphicsDevice device = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
     
@@ -16,7 +16,7 @@ public class Startup extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     private void initComponents() {
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lblLogo = new javax.swing.JLabel();
         btnViewScores = new javax.swing.JButton();
         btnNewGame = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
@@ -28,7 +28,7 @@ public class Startup extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/trivia4.jpg")));
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/trivia4.jpg")));
 
         btnViewScores.setBackground(new java.awt.Color(19, 19, 19));
         btnViewScores.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48));
@@ -76,13 +76,13 @@ public class Startup extends javax.swing.JFrame {
                 .addGap((java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 194, (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 194, (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 194))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap((java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 320, (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 320, (java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 320)
-                .addComponent(jLabel2)
+                .addComponent(lblLogo)
                 .addContainerGap(131, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnNewGame, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
