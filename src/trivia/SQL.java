@@ -44,6 +44,7 @@ public class SQL {
             statement.executeQuery();
             return true;
         }catch(SQLException ex){
+            System.err.println(ex.getMessage());
             return false;
         }
     }
