@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class SQL {
     private static String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private static String URL = "jdbc:mysql://localhost:3306/trivialdb";
+    private static String URL = "jdbc:mysql://localhost:3306/triviadb";
     private static String USERNAME = "root";
     private static String PASSWORD = "1361995";
     private static Connection con;

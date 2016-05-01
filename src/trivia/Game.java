@@ -1,5 +1,7 @@
 package trivia;
 
+import java.sql.SQLException;
+
 public class Game extends javax.swing.JFrame {
     private Player player1;
     private Player player2;
@@ -18,12 +20,15 @@ public class Game extends javax.swing.JFrame {
     private javax.swing.JLabel lblTime;
     private javax.swing.JSeparator sepLineSeperator;
     private static java.awt.GraphicsDevice device = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+    private java.util.Hashtable<String, String> questions;
+    private CorrectAnswer correctAnswer;
     
     public Game(javax.swing.JPanel jPanel1, String player1){
         this.jPanel1 = jPanel1;
         this.player1 = new Player(player1);                                       
         jPanel1.removeAll();
-        initSinglePlayer();
+        initSinglePlayer(this.player1);
+        fetchData();
     }
     
     public Game(javax.swing.JPanel jPanel1, String player1, String player2){
@@ -31,12 +36,13 @@ public class Game extends javax.swing.JFrame {
         this.player1 = new Player(player1);
         this.player2 = new Player(player2);                                       
         jPanel1.removeAll();
-        initMultiPlayer();
+        initMultiPlayer(this.player1, this.player2);
+        fetchData();
     }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="initSinglePlayer">                          
-    private void initSinglePlayer() {
+    private void initSinglePlayer(Player player1) {
         jPanel1 = new javax.swing.JPanel();
         btnAnswer1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -72,7 +78,6 @@ public class Game extends javax.swing.JFrame {
         lblQuestion.setForeground(new java.awt.Color(255, 255, 255));
         lblQuestion.setLineWrap(true);
         lblQuestion.setRows(5);
-        lblQuestion.setText("The cities of Cairo in Egypt and Fez in Morroco are generally accepted to have the oldest of what type of institution in the world?");
         lblQuestion.setWrapStyleWord(true);
         lblQuestion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         jScrollPane1.setViewportView(lblQuestion);
@@ -80,23 +85,23 @@ public class Game extends javax.swing.JFrame {
         lblPlayer2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
         lblPlayer2.setForeground(new java.awt.Color(255, 255, 255));
         lblPlayer2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblPlayer2.setText("Player 2");
+        lblPlayer2.setText(player2.getName());
 
         lblPlayer1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
         lblPlayer1.setForeground(new java.awt.Color(255, 255, 255));
-        lblPlayer1.setText("Player 1");
+        lblPlayer1.setText(player1.getName());
 
         lblPlayer1Score.setBackground(new java.awt.Color(0, 0, 0));
         lblPlayer1Score.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48)); // NOI18N
         lblPlayer1Score.setForeground(new java.awt.Color(255, 255, 255));
-        lblPlayer1Score.setText("60");
+        lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
         lblPlayer1Score.setToolTipText("");
 
         lblPlayer2Score.setBackground(new java.awt.Color(0, 0, 0));
         lblPlayer2Score.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48)); // NOI18N
         lblPlayer2Score.setForeground(new java.awt.Color(255, 255, 255));
         lblPlayer2Score.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblPlayer2Score.setText("60");
+        lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
         lblPlayer2Score.setToolTipText("");
 
         lblTime.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48)); // NOI18N
@@ -204,7 +209,7 @@ public class Game extends javax.swing.JFrame {
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="initMultiPlayer">                          
-    private void initMultiPlayer() {
+    private void initMultiPlayer(Player player1, Player player2) {
         jPanel1 = new javax.swing.JPanel();
         btnAnswer1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -240,7 +245,6 @@ public class Game extends javax.swing.JFrame {
         lblQuestion.setForeground(new java.awt.Color(255, 255, 255));
         lblQuestion.setLineWrap(true);
         lblQuestion.setRows(5);
-        lblQuestion.setText("The cities of Cairo in Egypt and Fez in Morroco are generally accepted to have the oldest of what type of institution in the world?");
         lblQuestion.setWrapStyleWord(true);
         lblQuestion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         jScrollPane1.setViewportView(lblQuestion);
@@ -370,14 +374,72 @@ public class Game extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
     
-    private void fetchQuestions(){
+    // <editor-fold defaultstate="collapsed" desc="fetchData">    
+    private void fetchData(){
         try{
-            java.sql.ResultSet rs = SQL.select("select * from view_cqa");
-            com.sun.rowset.CachedRowSetImpl cachedRS = new com.sun.rowset.CachedRowSetImpl();
-            cachedRS.populate(rs);
-            
+            SQL.startConnection();
+            java.sql.ResultSet rs = SQL.select("select distinct Question_ID, Question from view_cqa");
+            com.sun.rowset.CachedRowSetImpl crs = new com.sun.rowset.CachedRowSetImpl();
+            questions = new java.util.Hashtable<String, String>();
+            crs.populate(rs);
+            SQL.endConnection();
+            while(crs.next()){
+                questions.put(crs.getString("Question_ID"), crs.getString("Question"));
+            }
+            int pickedQuestion = new java.util.Random().nextInt(questions.size());
+            java.util.Set<String> keys = questions.keySet();
+            int i = 0;
+            for(String key: keys){
+                if(i == pickedQuestion){
+                    lblQuestion.setText(questions.get(key));
+                    SQL.startConnection();
+                    rs = SQL.select("select Answer, Answer_ID, isCorrect from view_cqa where Question_ID = " + Integer.parseInt(key));
+                    populateAnswers(rs);
+                    SQL.endConnection();
+                    break;
+                }
+                i++;
+            }
+        }catch(SQLException ex){
+            System.err.println(ex.getMessage());
         }catch(Exception ex){
             System.err.println(ex.getMessage());
         }
-    }
+    }// </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="populateAnswers"> 
+    private void populateAnswers(java.sql.ResultSet rs){
+        try{
+            int iterateButtons = 0;
+            while(rs.next()){
+                if(rs.getBoolean("isCorrect")){
+                    correctAnswer = new CorrectAnswer(rs.getString("Answer"), rs.getString("Answer_ID"));
+                }
+                switch(iterateButtons){
+                    case 0:
+                        btnAnswer1.setText(rs.getString("Answer"));
+                        iterateButtons++;
+                        break;
+                    case 1:
+                        btnAnswe2.setText(rs.getString("Answer"));
+                        iterateButtons++;
+                        break;
+                    case 2:
+                        btnAnswer3.setText(rs.getString("Answer"));
+                        iterateButtons++;
+                        break;
+                    case 3:
+                        btnAnswer4.setText(rs.getString("Answer"));
+                        iterateButtons++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }catch(SQLException ex){
+            System.err.println(ex.getMessage());
+        }catch(Exception ex){
+            System.err.println(ex.getMessage());
+        }
+    }// </editor-fold>
 }
