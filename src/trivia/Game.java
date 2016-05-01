@@ -1,16 +1,15 @@
 package trivia;
 
-import java.sql.SQLException;
-
 public class Game extends javax.swing.JFrame {
     private Player player1;
     private Player player2;
     private PC pc;
-    private javax.swing.JButton btnAnswe2;
+    private boolean isSinglePlayer;
+    private javax.swing.JButton btnAnswer2;
     private javax.swing.JButton btnAnswer1;
     private javax.swing.JButton btnAnswer3;
     private javax.swing.JButton btnAnswer4;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnMenu;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblPlayer1;
@@ -23,10 +22,12 @@ public class Game extends javax.swing.JFrame {
     private static java.awt.GraphicsDevice device = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
     private java.util.Hashtable<String, String> questions;
     private CorrectAnswer correctAnswer;
+    private javax.swing.Timer timer;
     
     public Game(String player1){
         this.player1 = new Player(player1);
         this.pc = new PC();
+        this.isSinglePlayer = true;
         initSinglePlayer(this.player1, this.pc);
         fetchData();
     }
@@ -34,6 +35,7 @@ public class Game extends javax.swing.JFrame {
     public Game(String player1, String player2){
         this.player1 = new Player(player1);
         this.player2 = new Player(player2);
+        this.isSinglePlayer = false;
         initMultiPlayer(this.player1, this.player2);
         fetchData();
     }
@@ -51,10 +53,10 @@ public class Game extends javax.swing.JFrame {
         lblPlayer2Score = new javax.swing.JLabel();
         lblTime = new javax.swing.JLabel();
         sepLineSeperator = new javax.swing.JSeparator();
-        btnAnswe2 = new javax.swing.JButton();
+        btnAnswer2 = new javax.swing.JButton();
         btnAnswer3 = new javax.swing.JButton();
         btnAnswer4 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnMenu = new javax.swing.JButton();
         
         setUndecorated(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -65,14 +67,13 @@ public class Game extends javax.swing.JFrame {
         jPanel1.setAlignmentX(javax.swing.SwingConstants.CENTER);
 
         btnAnswer1.setBackground(new java.awt.Color(255, 255, 255));
-        btnAnswer1.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
-        btnAnswer1.setText("Answer 1");
+        btnAnswer1.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         btnAnswer1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
 
         lblQuestion.setEditable(false);
         lblQuestion.setBackground(new java.awt.Color(102, 102, 102));
         lblQuestion.setColumns(20);
-        lblQuestion.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        lblQuestion.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         lblQuestion.setForeground(new java.awt.Color(255, 255, 255));
         lblQuestion.setLineWrap(true);
         lblQuestion.setRows(5);
@@ -105,16 +106,15 @@ public class Game extends javax.swing.JFrame {
         lblTime.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48)); // NOI18N
         lblTime.setForeground(new java.awt.Color(255, 255, 255));
         lblTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTime.setText("25");
 
         sepLineSeperator.setForeground(new java.awt.Color(255, 255, 255));
         sepLineSeperator.setOrientation(javax.swing.SwingConstants.VERTICAL);
         sepLineSeperator.setEnabled(false);
         sepLineSeperator.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
 
-        btnAnswe2.setBackground(new java.awt.Color(255, 255, 255));
-        btnAnswe2.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
-        btnAnswe2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
+        btnAnswer2.setBackground(new java.awt.Color(255, 255, 255));
+        btnAnswer2.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
+        btnAnswer2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
 
         btnAnswer3.setBackground(new java.awt.Color(255, 255, 255));
         btnAnswer3.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
@@ -124,7 +124,7 @@ public class Game extends javax.swing.JFrame {
         btnAnswer4.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         btnAnswer4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoMenu.jpg"))); // NOI18N
+        btnMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoMenu.jpg")));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -134,12 +134,12 @@ public class Game extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAnswer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAnswe2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAnswer2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAnswer3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAnswer4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(112, 112, 112)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -166,7 +166,7 @@ public class Game extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(sepLineSeperator, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblPlayer2))
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPlayer1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -178,7 +178,7 @@ public class Game extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnAnswer1)
                 .addGap(18, 18, 18)
-                .addComponent(btnAnswe2)
+                .addComponent(btnAnswer2)
                 .addGap(18, 18, 18)
                 .addComponent(btnAnswer3)
                 .addGap(18, 18, 18)
@@ -215,10 +215,10 @@ public class Game extends javax.swing.JFrame {
         lblPlayer2Score = new javax.swing.JLabel();
         lblTime = new javax.swing.JLabel();
         sepLineSeperator = new javax.swing.JSeparator();
-        btnAnswe2 = new javax.swing.JButton();
+        btnAnswer2 = new javax.swing.JButton();
         btnAnswer3 = new javax.swing.JButton();
         btnAnswer4 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnMenu = new javax.swing.JButton();
 
         setUndecorated(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -229,14 +229,13 @@ public class Game extends javax.swing.JFrame {
         jPanel1.setAlignmentX(javax.swing.SwingConstants.CENTER);
 
         btnAnswer1.setBackground(new java.awt.Color(255, 255, 255));
-        btnAnswer1.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
-        btnAnswer1.setText("Answer 1");
+        btnAnswer1.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         btnAnswer1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
 
         lblQuestion.setEditable(false);
         lblQuestion.setBackground(new java.awt.Color(102, 102, 102));
         lblQuestion.setColumns(20);
-        lblQuestion.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        lblQuestion.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); 
         lblQuestion.setForeground(new java.awt.Color(255, 255, 255));
         lblQuestion.setLineWrap(true);
         lblQuestion.setRows(5);
@@ -244,54 +243,53 @@ public class Game extends javax.swing.JFrame {
         lblQuestion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         jScrollPane1.setViewportView(lblQuestion);
 
-        lblPlayer2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
+        lblPlayer2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48));
         lblPlayer2.setForeground(new java.awt.Color(255, 255, 255));
         lblPlayer2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblPlayer2.setText(player2.getName());
 
-        lblPlayer1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
+        lblPlayer1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48));
         lblPlayer1.setForeground(new java.awt.Color(255, 255, 255));
         lblPlayer1.setText(player1.getName());
 
         lblPlayer1Score.setBackground(new java.awt.Color(0, 0, 0));
-        lblPlayer1Score.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48)); // NOI18N
+        lblPlayer1Score.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48));
         lblPlayer1Score.setForeground(new java.awt.Color(255, 255, 255));
         lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
         lblPlayer1Score.setToolTipText("");
 
         lblPlayer2Score.setBackground(new java.awt.Color(0, 0, 0));
-        lblPlayer2Score.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48)); // NOI18N
+        lblPlayer2Score.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48));
         lblPlayer2Score.setForeground(new java.awt.Color(255, 255, 255));
         lblPlayer2Score.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
         lblPlayer2Score.setToolTipText("");
 
-        lblTime.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48)); // NOI18N
+        lblTime.setFont(new java.awt.Font("Franklin Gothic Demi", 1, 48));
         lblTime.setForeground(new java.awt.Color(255, 255, 255));
         lblTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTime.setText("25");
 
         sepLineSeperator.setForeground(new java.awt.Color(255, 255, 255));
         sepLineSeperator.setOrientation(javax.swing.SwingConstants.VERTICAL);
         sepLineSeperator.setEnabled(false);
-        sepLineSeperator.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        sepLineSeperator.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
 
-        btnAnswe2.setBackground(new java.awt.Color(255, 255, 255));
-        btnAnswe2.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
-        btnAnswe2.setText("Answer 2");
-        btnAnswe2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
+        btnAnswer2.setBackground(new java.awt.Color(255, 255, 255));
+        btnAnswer2.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
+        btnAnswer2.setText("Answer 2");
+        btnAnswer2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
 
         btnAnswer3.setBackground(new java.awt.Color(255, 255, 255));
-        btnAnswer3.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        btnAnswer3.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         btnAnswer3.setText("Answer 3");
         btnAnswer3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
 
         btnAnswer4.setBackground(new java.awt.Color(255, 255, 255));
-        btnAnswer4.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        btnAnswer4.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         btnAnswer4.setText("Answer 4");
         btnAnswer4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoMenu.jpg"))); // NOI18N
+        btnMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoMenu.jpg")));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -301,12 +299,12 @@ public class Game extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAnswer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAnswe2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAnswer2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAnswer3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAnswer4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(112, 112, 112)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -333,7 +331,7 @@ public class Game extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(sepLineSeperator, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblPlayer2))
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPlayer1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -345,7 +343,7 @@ public class Game extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnAnswer1)
                 .addGap(18, 18, 18)
-                .addComponent(btnAnswe2)
+                .addComponent(btnAnswer2)
                 .addGap(18, 18, 18)
                 .addComponent(btnAnswer3)
                 .addGap(18, 18, 18)
@@ -387,15 +385,13 @@ public class Game extends javax.swing.JFrame {
             for(String key: keys){
                 if(i == pickedQuestion){
                     lblQuestion.setText(questions.get(key));
-                    SQL.startConnection();
-                    rs = SQL.select("select Answer, Answer_ID, isCorrect from view_cqa where Question_ID = " + Integer.parseInt(key));
-                    populateAnswers(rs);
-                    SQL.endConnection();
+                    populateAnswers("select Answer, Answer_ID, isCorrect from view_cqa where Question_ID = " + Integer.parseInt(key));
                     break;
                 }
                 i++;
             }
-        }catch(SQLException ex){
+            initTime();
+        }catch(java.sql.SQLException ex){
             System.err.println(ex.getMessage());
         }catch(Exception ex){
             System.err.println(ex.getMessage());
@@ -403,8 +399,10 @@ public class Game extends javax.swing.JFrame {
     }// </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="populateAnswers"> 
-    private void populateAnswers(java.sql.ResultSet rs){
+    private void populateAnswers(String sql){
         try{
+            SQL.startConnection();
+            java.sql.ResultSet rs = SQL.select(sql);
             int iterateButtons = 0;
             while(rs.next()){
                 if(rs.getBoolean("isCorrect")){
@@ -416,7 +414,7 @@ public class Game extends javax.swing.JFrame {
                         iterateButtons++;
                         break;
                     case 1:
-                        btnAnswe2.setText(rs.getString("Answer"));
+                        btnAnswer2.setText(rs.getString("Answer"));
                         iterateButtons++;
                         break;
                     case 2:
@@ -431,10 +429,103 @@ public class Game extends javax.swing.JFrame {
                         break;
                 }
             }
-        }catch(SQLException ex){
+            SQL.endConnection();
+        }catch(java.sql.SQLException ex){
             System.err.println(ex.getMessage());
         }catch(Exception ex){
             System.err.println(ex.getMessage());
         }
     }// </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="newQuestion">   
+    private void newQuestion(){
+        try{
+            java.util.Set<String> keys = questions.keySet();
+            for(String key: keys){
+                if(lblQuestion.getText().equals(questions.get(key))){
+                    questions.remove(key);
+                    break;
+                }
+            }
+            if(questions.isEmpty()){
+                endGame();
+                return;
+            }
+            int pickedQuestion = new java.util.Random().nextInt(questions.size());
+            int i = 0;
+            for(String key: keys){
+                if(i == pickedQuestion){
+                    lblQuestion.setText(questions.get(key));
+                    populateAnswers("select Answer, Answer_ID, isCorrect from view_cqa where Question_ID = " + Integer.parseInt(key));
+                    break;
+                }
+                i++;
+            }
+            initTime();
+        }catch(Exception ex){
+            System.err.println(ex.getMessage());
+        }
+    }// </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="endGame"> 
+    private void endGame(){
+        try{
+            btnAnswer1.setEnabled(false);
+            btnAnswer2.setEnabled(false);
+            btnAnswer3.setEnabled(false);
+            btnAnswer4.setEnabled(false);
+            if(isSinglePlayer){
+                if(player1.getCorrectAnswers() > pc.getCorrectAnswers()){
+                    lblQuestion.setText("Congratulations! You Have Successfully Beaten A Mindless Machine!");
+                }else if(player1.getCorrectAnswers() < pc.getCorrectAnswers()){
+                    lblQuestion.setForeground(java.awt.Color.red);
+                    lblQuestion.setText("Maybe The Only Significant Difference Between A Really Basic Simulation And Yourself Is The Noise It Makes When You Punch It... Better Luck Next Time!");
+                }else{
+                    lblQuestion.setText("Close Call! Better Luck Next Time!");
+                }
+            }else{
+                if(player1.getCorrectAnswers() > player2.getCorrectAnswers()){
+                    lblQuestion.setText(player1.getName() + " Wins!");
+                }else if(player1.getCorrectAnswers() < player2.getCorrectAnswers()){
+                    lblQuestion.setText(player2.getName() + " Wins!");
+                }else{
+                    lblQuestion.setText("Draw!");
+                }
+            }
+        }catch(Exception ex){
+            System.err.println(ex.getMessage());
+        }
+    }// </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="initTime"> 
+    private void initTime(){
+        try{
+            TimerClass tc = new TimerClass();
+            timer = new javax.swing.Timer(1000, tc);
+            timer.start();
+        }catch(Exception ex){
+            System.err.println(ex.getMessage());
+        }
+    }// </editor-fold>
+    
+    public class TimerClass implements java.awt.event.ActionListener{
+        int counter = 1; //20
+        
+        public void actionPerformed(java.awt.event.ActionEvent evt){
+            if(counter >= 6){
+                lblTime.setForeground(java.awt.Color.white);
+                lblTime.setText(String.format("%d", counter));
+                counter --;
+            }else if(counter < 6 && counter >= 1){
+                lblTime.setForeground(java.awt.Color.red);
+                lblTime.setText(String.format("%d", counter));
+                counter --;
+            }else{
+                lblTime.setText(String.format("%d", counter));
+                timer.stop();
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                newQuestion();
+            }
+        }
+    }
 }
