@@ -27,32 +27,10 @@ public class SQL {
         }
     }
     
-    public static boolean insert(String sql){
+    public static boolean execute(String sql){
         try{
             PreparedStatement statement = con.prepareStatement(sql);
             statement.executeUpdate();
-            return true;
-        }catch(SQLException ex){
-            System.err.println(ex.getMessage());
-            return false;
-        }
-    }
-    
-    public static boolean update(String sql){
-        try{
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.executeQuery();
-            return true;
-        }catch(SQLException ex){
-            System.err.println(ex.getMessage());
-            return false;
-        }
-    }
-    
-    public static boolean delete(String sql){
-        try{
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.executeQuery();
             return true;
         }catch(SQLException ex){
             System.err.println(ex.getMessage());

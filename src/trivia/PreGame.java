@@ -196,14 +196,14 @@ public class PreGame {
     
     // <editor-fold defaultstate="collapsed" desc="SinglePlayer">
     private void SinglePlayer(java.awt.event.ActionEvent evt) {                                        
-        PreGameSettings initiatePreGameSettings = new PreGameSettings(startup, true);
+        PreGameSettings initiatePreGameSettings = new PreGameSettings(startup, true, startup);
         initiatePreGameSettings.setLocation((java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 479, (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height / 2) - 83);
         initiatePreGameSettings.setVisible(true);
     }//</editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="MultiPlayer">
     private void MultiPlayer(java.awt.event.ActionEvent evt) {                                        
-        PreGameSettings initiatePreGameSettings = new PreGameSettings(startup, false);
+        PreGameSettings initiatePreGameSettings = new PreGameSettings(startup, false, startup);
         initiatePreGameSettings.setLocation((java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 479, (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height / 2) - 83);
         initiatePreGameSettings.setVisible(true);
     }//</editor-fold>
