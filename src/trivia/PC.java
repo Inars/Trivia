@@ -3,7 +3,7 @@ package trivia;
 public class PC {
     private static int CorrectAnswers = 0;
     
-    public void addCorrectAnswer(){
+    public void AnsweredCorrectly(){
         CorrectAnswers ++;
     }
     
