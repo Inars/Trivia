@@ -706,30 +706,31 @@ public class Game extends javax.swing.JFrame {
                 int randomSelection = new java.util.Random().nextInt(4);
                 for(int i = 1; i <= randomSelection; i++){
                     if(i == randomSelection){
-                        if(i == 1){
-                            if(!btnAnswer1.getText().equals(correctAnswer.toString())){
-                                btnAnswer1.doClick();
-                            }else{
-                                this.MachineAnswer();
-                            }
-                        }else if(i == 2){
-                            if(!btnAnswer2.getText().equals(correctAnswer.toString())){
-                                btnAnswer2.doClick();
-                            }else{
-                                this.MachineAnswer();
-                            }
-                        }else if(i == 3){
-                            if(!btnAnswer3.getText().equals(correctAnswer.toString())){
-                                btnAnswer3.doClick();
-                            }else{
-                                this.MachineAnswer();
-                            }
-                        }else{
-                            if(!btnAnswer4.getText().equals(correctAnswer.toString())){
-                                btnAnswer4.doClick();
-                            }else{
-                                this.MachineAnswer();
-                            }
+                        switch(i){
+                            case 1:
+                                if(!btnAnswer1.getText().equals(correctAnswer.toString())){
+                                    btnAnswer1.doClick();
+                                }else{
+                                    this.MachineAnswer();
+                                }   break;
+                            case 2:
+                                if(!btnAnswer2.getText().equals(correctAnswer.toString())){
+                                    btnAnswer2.doClick();
+                                }else{
+                                    this.MachineAnswer();
+                                }   break;
+                            case 3:
+                                if(!btnAnswer3.getText().equals(correctAnswer.toString())){
+                                    btnAnswer3.doClick();
+                                }else{
+                                    this.MachineAnswer();
+                                }   break;
+                            default:
+                                if(!btnAnswer4.getText().equals(correctAnswer.toString())){
+                                    btnAnswer4.doClick();
+                                }else{
+                                    this.MachineAnswer();
+                                }   break;
                         }
                     }
                 }
@@ -784,13 +785,13 @@ public class Game extends javax.swing.JFrame {
                 if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
                     lblPlayer1.setForeground(java.awt.Color.WHITE);
                     lblPlayer2.setForeground(java.awt.Color.BLUE);
-                }else{
-                    lblPlayer1.setForeground(java.awt.Color.BLUE);
-                    lblPlayer2.setForeground(java.awt.Color.WHITE);
-                    if(!isSinglePlayer){
+                    if(isSinglePlayer){
                         timer.stop();
                         MachineAnswer();
                     }
+                }else{
+                    lblPlayer1.setForeground(java.awt.Color.BLUE);
+                    lblPlayer2.setForeground(java.awt.Color.WHITE);
                 }
             }
         }
