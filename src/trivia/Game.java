@@ -691,7 +691,7 @@ public class Game extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="MachineAnswer">
     private void MachineAnswer(){
         try{
-            int winChance = new java.util.Random().nextInt(2);
+            int winChance = new java.util.Random().nextInt(1);
             if(winChance == 1){
                 if(correctAnswer.toString().equals(btnAnswer1.getText())){
                     btnAnswer1.doClick();
@@ -703,23 +703,23 @@ public class Game extends javax.swing.JFrame {
                     btnAnswer4.doClick();
                 }
             }else{
-                int randomSelection = new java.util.Random().nextInt(4);
-                for(int i = 1; i <= randomSelection; i++){
+                int randomSelection = new java.util.Random().nextInt(3);
+                for(int i = 0; i <= randomSelection; i++){
                     if(i == randomSelection){
                         switch(i){
-                            case 1:
+                            case 0:
                                 if(!btnAnswer1.getText().equals(correctAnswer.toString())){
                                     btnAnswer1.doClick();
                                 }else{
                                     this.MachineAnswer();
                                 }   break;
-                            case 2:
+                            case 1:
                                 if(!btnAnswer2.getText().equals(correctAnswer.toString())){
                                     btnAnswer2.doClick();
                                 }else{
                                     this.MachineAnswer();
                                 }   break;
-                            case 3:
+                            case 2:
                                 if(!btnAnswer3.getText().equals(correctAnswer.toString())){
                                     btnAnswer3.doClick();
                                 }else{
