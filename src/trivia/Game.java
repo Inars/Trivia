@@ -488,6 +488,7 @@ public class Game extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="newQuestion">   
     private void newQuestion(){
         try{
+            timer.stop();
             btnAnswer1.setForeground(java.awt.Color.BLACK);
             btnAnswer2.setForeground(java.awt.Color.BLACK);
             btnAnswer3.setForeground(java.awt.Color.BLACK);
@@ -563,123 +564,123 @@ public class Game extends javax.swing.JFrame {
     
     // <editor-fold defaultstate="collapsed" desc="Answered">
     private void Answered(java.awt.event.ActionEvent evt){
-        javax.swing.JButton sender = (javax.swing.JButton)evt.getSource();
-        timer.stop();
-        if(sender.getText().equals(btnAnswer1.getText())){
-            if(sender.getText().equals(correctAnswer.toString())){
-                btnAnswer1.setForeground(java.awt.Color.GREEN);
-                if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
-                    player1.AnsweredCorrectly();
-                    lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
-                }else{
-                    if(!isSinglePlayer){
-                        player2.AnsweredCorrectly();
-                        lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
-                    }else{
-                        pc.AnsweredCorrectly();
-                        lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
-                    }
-                }
-            }else{
-                btnAnswer1.setForeground(java.awt.Color.RED);
-                if(btnAnswer2.getText().equals(correctAnswer.toString())){
-                    btnAnswer2.setForeground(java.awt.Color.GREEN);
-                }else if(btnAnswer3.getText().equals(correctAnswer.toString())){
-                    btnAnswer3.setForeground(java.awt.Color.GREEN);
-                }else if(btnAnswer4.getText().equals(correctAnswer.toString())){
-                    btnAnswer4.setForeground(java.awt.Color.GREEN);
-                }
-            }
-        }else if(sender.getText().equals(btnAnswer2.getText())){
-            if(sender.getText().equals(correctAnswer.toString())){
-                btnAnswer2.setForeground(java.awt.Color.GREEN);
-                if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
-                    player1.AnsweredCorrectly();
-                    lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
-                }else{
-                    if(!isSinglePlayer){
-                        player2.AnsweredCorrectly();
-                        lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
-                    }else{
-                        pc.AnsweredCorrectly();
-                        lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
-                    }
-                }
-            }else{
-                btnAnswer2.setForeground(java.awt.Color.RED);
-                if(btnAnswer1.getText().equals(correctAnswer.toString())){
-                    btnAnswer1.setForeground(java.awt.Color.GREEN);
-                }else if(btnAnswer3.getText().equals(correctAnswer.toString())){
-                    btnAnswer3.setForeground(java.awt.Color.GREEN);
-                }else if(btnAnswer4.getText().equals(correctAnswer.toString())){
-                    btnAnswer4.setForeground(java.awt.Color.GREEN);
-                }
-            }
-        }else if(sender.getText().equals(btnAnswer3.getText())){
-            if(sender.getText().equals(correctAnswer.toString())){
-                btnAnswer3.setForeground(java.awt.Color.GREEN);
-                if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
-                    player1.AnsweredCorrectly();
-                    lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
-                }else{
-                    if(!isSinglePlayer){
-                        player2.AnsweredCorrectly();
-                        lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
-                    }else{
-                        pc.AnsweredCorrectly();
-                        lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
-                    }
-                }
-            }else{
-                btnAnswer3.setForeground(java.awt.Color.RED);
-                if(btnAnswer2.getText().equals(correctAnswer.toString())){
-                    btnAnswer2.setForeground(java.awt.Color.GREEN);
-                }else if(btnAnswer1.getText().equals(correctAnswer.toString())){
-                    btnAnswer1.setForeground(java.awt.Color.GREEN);
-                }else if(btnAnswer4.getText().equals(correctAnswer.toString())){
-                    btnAnswer4.setForeground(java.awt.Color.GREEN);
-                }
-            }
-        }else if(sender.getText().equals(btnAnswer4.getText())){
-            if(sender.getText().equals(correctAnswer.toString())){
-                btnAnswer4.setForeground(java.awt.Color.GREEN);
-                if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
-                    player1.AnsweredCorrectly();
-                    lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
-                }else{
-                    if(!isSinglePlayer){
-                        player2.AnsweredCorrectly();
-                        lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
-                    }else{
-                        pc.AnsweredCorrectly();
-                        lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
-                    }
-                }
-            }else{
-                btnAnswer4.setForeground(java.awt.Color.RED);
-                if(btnAnswer2.getText().equals(correctAnswer.toString())){
-                    btnAnswer2.setForeground(java.awt.Color.GREEN);
-                }else if(btnAnswer1.getText().equals(correctAnswer.toString())){
-                    btnAnswer1.setForeground(java.awt.Color.GREEN);
-                }else if(btnAnswer3.getText().equals(correctAnswer.toString())){
-                    btnAnswer3.setForeground(java.awt.Color.GREEN);
-                }
-            }
-        }
-        btnAnswer1.setForeground(java.awt.Color.white);
         try{
-            Thread.sleep(1000);
-        }catch(InterruptedException ex){
+            javax.swing.JButton sender = (javax.swing.JButton)evt.getSource();
+            timer.stop();
+            if(sender.getText().equals(btnAnswer1.getText())){
+                if(sender.getText().equals(correctAnswer.toString())){
+                    btnAnswer1.setForeground(java.awt.Color.GREEN);
+                    if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
+                        player1.AnsweredCorrectly();
+                        lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
+                    }else{
+                        if(!isSinglePlayer){
+                            player2.AnsweredCorrectly();
+                            lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
+                        }else{
+                            pc.AnsweredCorrectly();
+                            lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
+                        }
+                    }
+                }else{
+                    btnAnswer1.setForeground(java.awt.Color.RED);
+                    if(btnAnswer2.getText().equals(correctAnswer.toString())){
+                        btnAnswer2.setForeground(java.awt.Color.GREEN);
+                    }else if(btnAnswer3.getText().equals(correctAnswer.toString())){
+                        btnAnswer3.setForeground(java.awt.Color.GREEN);
+                    }else if(btnAnswer4.getText().equals(correctAnswer.toString())){
+                        btnAnswer4.setForeground(java.awt.Color.GREEN);
+                    }
+                }
+            }else if(sender.getText().equals(btnAnswer2.getText())){
+                if(sender.getText().equals(correctAnswer.toString())){
+                    btnAnswer2.setForeground(java.awt.Color.GREEN);
+                    if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
+                        player1.AnsweredCorrectly();
+                        lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
+                    }else{
+                        if(!isSinglePlayer){
+                            player2.AnsweredCorrectly();
+                            lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
+                        }else{
+                            pc.AnsweredCorrectly();
+                            lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
+                        }
+                    }
+                }else{
+                    btnAnswer2.setForeground(java.awt.Color.RED);
+                    if(btnAnswer1.getText().equals(correctAnswer.toString())){
+                        btnAnswer1.setForeground(java.awt.Color.GREEN);
+                    }else if(btnAnswer3.getText().equals(correctAnswer.toString())){
+                        btnAnswer3.setForeground(java.awt.Color.GREEN);
+                    }else if(btnAnswer4.getText().equals(correctAnswer.toString())){
+                        btnAnswer4.setForeground(java.awt.Color.GREEN);
+                    }
+                }
+            }else if(sender.getText().equals(btnAnswer3.getText())){
+                if(sender.getText().equals(correctAnswer.toString())){
+                    btnAnswer3.setForeground(java.awt.Color.GREEN);
+                    if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
+                        player1.AnsweredCorrectly();
+                        lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
+                    }else{
+                        if(!isSinglePlayer){
+                            player2.AnsweredCorrectly();
+                            lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
+                        }else{
+                            pc.AnsweredCorrectly();
+                            lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
+                        }
+                    }
+                }else{
+                    btnAnswer3.setForeground(java.awt.Color.RED);
+                    if(btnAnswer2.getText().equals(correctAnswer.toString())){
+                        btnAnswer2.setForeground(java.awt.Color.GREEN);
+                    }else if(btnAnswer1.getText().equals(correctAnswer.toString())){
+                        btnAnswer1.setForeground(java.awt.Color.GREEN);
+                    }else if(btnAnswer4.getText().equals(correctAnswer.toString())){
+                        btnAnswer4.setForeground(java.awt.Color.GREEN);
+                    }
+                }
+            }else if(sender.getText().equals(btnAnswer4.getText())){
+                if(sender.getText().equals(correctAnswer.toString())){
+                    btnAnswer4.setForeground(java.awt.Color.GREEN);
+                    if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
+                        player1.AnsweredCorrectly();
+                        lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
+                    }else{
+                        if(!isSinglePlayer){
+                            player2.AnsweredCorrectly();
+                            lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
+                        }else{
+                            pc.AnsweredCorrectly();
+                            lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
+                        }
+                    }
+                }else{
+                    btnAnswer4.setForeground(java.awt.Color.RED);
+                    if(btnAnswer2.getText().equals(correctAnswer.toString())){
+                        btnAnswer2.setForeground(java.awt.Color.GREEN);
+                    }else if(btnAnswer1.getText().equals(correctAnswer.toString())){
+                        btnAnswer1.setForeground(java.awt.Color.GREEN);
+                    }else if(btnAnswer3.getText().equals(correctAnswer.toString())){
+                        btnAnswer3.setForeground(java.awt.Color.GREEN);
+                    }
+                }
+            }
+            TimerClass tc = new TimerClass(true);
+            timer = new javax.swing.Timer(1000, tc);
+            timer.start();
+        }catch(Exception ex){
             System.err.println(ex.getMessage());
             Thread.currentThread().interrupt();
         }
-        newQuestion();
     }// </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="initTime"> 
     private void initTime(){
         try{
-            TimerClass tc = new TimerClass();
+            TimerClass tc = new TimerClass(false);
             timer = new javax.swing.Timer(1000, tc);
             timer.start();
         }catch(Exception ex){
@@ -687,24 +688,94 @@ public class Game extends javax.swing.JFrame {
         }
     }// </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="MachineAnswer">
+    private void MachineAnswer(){
+        try{
+            int winChance = new java.util.Random().nextInt(2);
+            if(winChance == 1){
+                if(correctAnswer.toString().equals(btnAnswer1.getText())){
+                    btnAnswer1.doClick();
+                }else if(correctAnswer.toString().equals(btnAnswer2.getText())){
+                    btnAnswer2.doClick();
+                }else if(correctAnswer.toString().equals(btnAnswer3.getText())){
+                    btnAnswer3.doClick();
+                }else if(correctAnswer.toString().equals(btnAnswer4.getText())){
+                    btnAnswer4.doClick();
+                }
+            }else{
+                int randomSelection = new java.util.Random().nextInt(4);
+                for(int i = 1; i <= randomSelection; i++){
+                    if(i == randomSelection){
+                        if(i == 1){
+                            if(!btnAnswer1.getText().equals(correctAnswer.toString())){
+                                btnAnswer1.doClick();
+                            }else{
+                                this.MachineAnswer();
+                            }
+                        }else if(i == 2){
+                            if(!btnAnswer2.getText().equals(correctAnswer.toString())){
+                                btnAnswer2.doClick();
+                            }else{
+                                this.MachineAnswer();
+                            }
+                        }else if(i == 3){
+                            if(!btnAnswer3.getText().equals(correctAnswer.toString())){
+                                btnAnswer3.doClick();
+                            }else{
+                                this.MachineAnswer();
+                            }
+                        }else{
+                            if(!btnAnswer4.getText().equals(correctAnswer.toString())){
+                                btnAnswer4.doClick();
+                            }else{
+                                this.MachineAnswer();
+                            }
+                        }
+                    }
+                }
+            }
+        }catch(Exception ex){
+            System.err.println(ex.getMessage());
+        }
+    }// </editor-fold>
+    
     public class TimerClass implements java.awt.event.ActionListener{
-        int counter = 20;
+        int counter;
+        boolean isWaitTime = false;
+        
+        public TimerClass(boolean isWaitTime){
+            this.isWaitTime = isWaitTime;
+            if(isWaitTime){
+                this.counter = 1;
+            }else{
+                this.counter = 20;
+            }
+        }
         
         public void actionPerformed(java.awt.event.ActionEvent evt){
-            checkPlayer();
-            if(counter >= 6){
-                lblTime.setForeground(java.awt.Color.white);
-                lblTime.setText(String.format("%d", counter));
-                counter --;
-            }else if(counter < 6 && counter >= 1){
-                lblTime.setForeground(java.awt.Color.red);
-                lblTime.setText(String.format("%d", counter));
-                counter --;
+            if(!isWaitTime){
+                checkPlayer();
+                if(counter >= 6){
+                    lblTime.setForeground(java.awt.Color.white);
+                    lblTime.setText(String.format("%d", counter));
+                    counter --;
+                }else if(counter < 6 && counter >= 1){
+                    lblTime.setForeground(java.awt.Color.red);
+                    lblTime.setText(String.format("%d", counter));
+                    counter --;
+                }else{
+                    lblTime.setText(String.format("%d", counter));
+                    timer.stop();
+                    java.awt.Toolkit.getDefaultToolkit().beep();
+                    newQuestion();
+                }
             }else{
-                lblTime.setText(String.format("%d", counter));
-                timer.stop();
-                java.awt.Toolkit.getDefaultToolkit().beep();
-                newQuestion();
+                if(counter > 0){
+                    counter --;
+                }else if(counter == 0){
+                    timer.stop();
+                    newQuestion();
+                }
             }
         }
         
@@ -716,6 +787,10 @@ public class Game extends javax.swing.JFrame {
                 }else{
                     lblPlayer1.setForeground(java.awt.Color.BLUE);
                     lblPlayer2.setForeground(java.awt.Color.WHITE);
+                    if(!isSinglePlayer){
+                        timer.stop();
+                        MachineAnswer();
+                    }
                 }
             }
         }
