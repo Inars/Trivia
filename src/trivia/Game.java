@@ -161,6 +161,11 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoMenu.jpg")));
+        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GameMenu(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -347,7 +352,12 @@ public class Game extends javax.swing.JFrame {
         });
 
         btnMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoMenu.jpg")));
-
+        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GameMenu(evt);
+            }
+        });
+        
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -631,17 +641,14 @@ public class Game extends javax.swing.JFrame {
                     if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
                         player1.AnsweredCorrectly();
                         player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), true);
-                        player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
                         lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
                     }else{
                         if(!isSinglePlayer){
                             player2.AnsweredCorrectly();
                             player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), true);
-                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
                         }else{
                             pc.AnsweredCorrectly();
-                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
                         }
                     }
@@ -668,17 +675,14 @@ public class Game extends javax.swing.JFrame {
                     if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
                         player1.AnsweredCorrectly();
                         player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), true);
-                        player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
                         lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
                     }else{
                         if(!isSinglePlayer){
                             player2.AnsweredCorrectly();
                             player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), true);
-                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
                         }else{
                             pc.AnsweredCorrectly();
-                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
                         }
                     }
@@ -705,17 +709,14 @@ public class Game extends javax.swing.JFrame {
                     if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
                         player1.AnsweredCorrectly();
                         player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), true);
-                        player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
                         lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
                     }else{
                         if(!isSinglePlayer){
                             player2.AnsweredCorrectly();
                             player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), true);
-                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
                         }else{
                             pc.AnsweredCorrectly();
-                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
                         }
                     }
@@ -807,6 +808,13 @@ public class Game extends javax.swing.JFrame {
         }catch(Exception ex){
             System.err.println(ex.getMessage());
         }
+    }// </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="GameMenu">
+    private void GameMenu(java.awt.event.ActionEvent evt){
+        GameMenu gameMenu = new GameMenu(this, this, session);
+        gameMenu.setLocation((java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 250, (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height / 2) - 87);
+        gameMenu.setVisible(true);
     }// </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="TimerClass"> 
