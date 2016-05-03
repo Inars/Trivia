@@ -30,10 +30,11 @@ public class Game extends javax.swing.JFrame {
         this.isSinglePlayer = true;
         SQL.startConnection();
         SQL.execute("insert into sessions values()");
-        SQL.execute("insert into players(Player_Name) values('" + player1 + "')");
+        this.session = new Session();
+        SQL.startConnection();
+        SQL.execute("insert into players(Player_Name,Session_ID) values('" + player1 + "','" + session.getSessionNb() + "')");
         SQL.endConnection();
         this.player1 = new Player(player1, true);
-        this.session = new Session();
         initSinglePlayer(this.player1, this.pc);
         fetchData();
     }
@@ -42,12 +43,13 @@ public class Game extends javax.swing.JFrame {
         this.isSinglePlayer = false;
         SQL.startConnection();
         SQL.execute("insert into sessions(PlayersNb) values(2); ");
-        SQL.execute("insert into players(Player_Name) values('" + player1 + "'); ");
-        SQL.execute("insert into players(Player_Name) values('" + player2 + "');");
+        this.session = new Session();
+        SQL.startConnection();
+        SQL.execute("insert into players(Player_Name,Session_ID) values('" + player1 + "','" + session.getSessionNb() + "'); ");
+        SQL.execute("insert into players(Player_Name,Session_ID) values('" + player2 + "','" + session.getSessionNb() + "');");
         SQL.endConnection();
         this.player1 = new Player(player1, true);
         this.player2 = new Player(player2, false);
-        this.session = new Session();
         initMultiPlayer(this.player1, this.player2);
         fetchData();
     }

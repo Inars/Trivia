@@ -111,9 +111,25 @@ public class Startup extends javax.swing.JFrame {
     }//</editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="ViewScores">
-    private void ViewScores(java.awt.event.ActionEvent evt) {                                              
-        
-    }//</editor-fold>                                            
+    private void ViewScores(java.awt.event.ActionEvent evt) {  
+        InsertScores();
+        ViewScores viewScores = new ViewScores(jPanel1,this);
+    }//</editor-fold>  
+    
+    // <editor-fold defaultstate="collapsed" desc="InsertScores">
+    private void InsertScores(){
+        try{
+            SQL.startConnection();
+            SQL.execute("delete from playerscores");
+            java.sql.ResultSet rs = SQL.select("select * from view_playerscores");
+            while(rs.next()){
+                SQL.execute("insert into playerscores values('" + rs.getInt("ID") + "','" + rs.getString("Player") + "','" + rs.getInt("CorrectAnswers") + "','" + rs.getString("FinalScore") + "')");
+            }
+            SQL.endConnection();
+        }catch(java.sql.SQLException ex){
+            System.err.println(ex.getMessage());
+        }
+    }//</editor-fold> 
     
     // <editor-fold defaultstate="collapsed" desc="Exit">
     private void Exit(java.awt.event.ActionEvent evt) {                                        
