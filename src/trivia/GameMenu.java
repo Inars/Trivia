@@ -6,11 +6,13 @@ public class GameMenu extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JFrame Game;
     private Session session;
+    private boolean isOver;
     
-    public GameMenu(java.awt.Frame parent, javax.swing.JFrame Game, Session session){
+    public GameMenu(java.awt.Frame parent, javax.swing.JFrame Game, Session session, boolean isOver){
         super(parent,true);
         this.Game = Game;
         this.session = session;
+        this.isOver = isOver;
         initComponents();
     }
     
@@ -86,9 +88,11 @@ public class GameMenu extends javax.swing.JDialog {
     
     // <editor-fold defaultstate="collapsed" desc="StopGame"> 
     private void StopGame(java.awt.event.ActionEvent evt){
-        SQL.startConnection();
-        SQL.execute("update sessions set Winner = -1 where Session_ID = " + session.getSessionNb());
-        SQL.endConnection();
+        if(!isOver){
+            SQL.startConnection();
+            SQL.execute("update sessions set Winner = -1 where Session_ID = " + session.getSessionNb());
+            SQL.endConnection();
+        }
         Startup startup = new Startup();
         startup.setVisible(true);
         this.dispose();

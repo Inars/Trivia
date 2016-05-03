@@ -587,7 +587,7 @@ public class Game extends javax.swing.JFrame {
                     lblPlayer2.setForeground(java.awt.Color.WHITE);
                     lblQuestion.setText("Draw!");
                     SQL.startConnection();
-                    SQL.execute("update ");
+                    SQL.execute("update sessions set Winner = -2 where Session_ID = " + session.getSessionNb());
                     SQL.endConnection();
                 }
             }
@@ -812,7 +812,12 @@ public class Game extends javax.swing.JFrame {
     
     // <editor-fold defaultstate="collapsed" desc="GameMenu">
     private void GameMenu(java.awt.event.ActionEvent evt){
-        GameMenu gameMenu = new GameMenu(this, this, session);
+        GameMenu gameMenu;
+        if(!lblPlayer1.getForeground().equals(java.awt.Color.BLUE) && !lblPlayer2.getForeground().equals(java.awt.Color.BLUE)){
+            gameMenu = new GameMenu(this, this, session, true);
+        }else{
+            gameMenu = new GameMenu(this, this, session, false);
+        }
         gameMenu.setLocation((java.awt.Toolkit.getDefaultToolkit().getScreenSize().width / 2) - 250, (java.awt.Toolkit.getDefaultToolkit().getScreenSize().height / 2) - 87);
         gameMenu.setVisible(true);
     }// </editor-fold>
