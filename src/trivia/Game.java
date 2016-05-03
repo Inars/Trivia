@@ -4,6 +4,7 @@ public class Game extends javax.swing.JFrame {
     private Player player1;
     private Player player2;
     private PC pc;
+    private Session session;
     private boolean isSinglePlayer;
     private javax.swing.JButton btnAnswer2;
     private javax.swing.JButton btnAnswer1;
@@ -25,17 +26,28 @@ public class Game extends javax.swing.JFrame {
     private javax.swing.Timer timer;
     
     public Game(String player1){
-        this.player1 = new Player(player1);
         this.pc = new PC();
         this.isSinglePlayer = true;
+        SQL.startConnection();
+        SQL.execute("insert into sessions values()");
+        SQL.execute("insert into players(Player_Name) values('" + player1 + "')");
+        SQL.endConnection();
+        this.player1 = new Player(player1, true);
+        this.session = new Session();
         initSinglePlayer(this.player1, this.pc);
         fetchData();
     }
     
     public Game(String player1, String player2){
-        this.player1 = new Player(player1);
-        this.player2 = new Player(player2);
         this.isSinglePlayer = false;
+        SQL.startConnection();
+        SQL.execute("insert into sessions(PlayersNb) values(2); ");
+        SQL.execute("insert into players(Player_Name) values('" + player1 + "'); ");
+        SQL.execute("insert into players(Player_Name) values('" + player2 + "');");
+        SQL.endConnection();
+        this.player1 = new Player(player1, true);
+        this.player2 = new Player(player2, false);
+        this.session = new Session();
         initMultiPlayer(this.player1, this.player2);
         fetchData();
     }
@@ -307,7 +319,6 @@ public class Game extends javax.swing.JFrame {
         btnAnswer2.setBackground(new java.awt.Color(255, 255, 255));
         btnAnswer2.setForeground(java.awt.Color.BLACK);
         btnAnswer2.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
-        btnAnswer2.setText("Answer 2");
         btnAnswer2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         btnAnswer2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,7 +329,6 @@ public class Game extends javax.swing.JFrame {
         btnAnswer3.setBackground(new java.awt.Color(255, 255, 255));
         btnAnswer3.setForeground(java.awt.Color.BLACK);
         btnAnswer3.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
-        btnAnswer3.setText("Answer 3");
         btnAnswer3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         btnAnswer3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,7 +339,6 @@ public class Game extends javax.swing.JFrame {
         btnAnswer4.setBackground(new java.awt.Color(255, 255, 255));
         btnAnswer4.setForeground(java.awt.Color.BLACK);
         btnAnswer4.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
-        btnAnswer4.setText("Answer 4");
         btnAnswer4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         btnAnswer4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -532,11 +541,17 @@ public class Game extends javax.swing.JFrame {
                     lblPlayer1.setForeground(java.awt.Color.GREEN);
                     lblPlayer2.setForeground(java.awt.Color.GRAY);
                     lblQuestion.setText("Congratulations! You Have Successfully Beaten A Mindless Machine!");
+                    SQL.startConnection();
+                    SQL.execute("update sessions set Winner = " + player1.getPlayer_id() + " where Session_ID = " + session.getSessionNb());
+                    SQL.endConnection();
                 }else if(player1.getCorrectAnswers() < pc.getCorrectAnswers()){
                     lblPlayer1.setForeground(java.awt.Color.GRAY);
                     lblPlayer2.setForeground(java.awt.Color.GREEN);
                     lblQuestion.setForeground(java.awt.Color.RED);
                     lblQuestion.setText("Maybe The Only Significant Difference Between A Really Basic Simulation And Yourself Is The Noise It Makes When You Punch It... Better Luck Next Time!");
+                    SQL.startConnection();
+                    SQL.execute("update sessions set Winner = 0 where Session_ID = " + session.getSessionNb());
+                    SQL.endConnection();
                 }else{
                     lblPlayer1.setForeground(java.awt.Color.WHITE);
                     lblPlayer2.setForeground(java.awt.Color.WHITE);
@@ -547,14 +562,23 @@ public class Game extends javax.swing.JFrame {
                     lblPlayer1.setForeground(java.awt.Color.GREEN);
                     lblPlayer2.setForeground(java.awt.Color.GRAY);
                     lblQuestion.setText(player1.getName() + " Wins!");
+                    SQL.startConnection();
+                    SQL.execute("update sessions set Winner = " + player1.getPlayer_id() + " where Session_ID = " + session.getSessionNb());
+                    SQL.endConnection();
                 }else if(player1.getCorrectAnswers() < player2.getCorrectAnswers()){
                     lblPlayer1.setForeground(java.awt.Color.GRAY);
                     lblPlayer2.setForeground(java.awt.Color.GREEN);
                     lblQuestion.setText(player2.getName() + " Wins!");
+                    SQL.startConnection();
+                    SQL.execute("update sessions set Winner = " + player2.getPlayer_id() + " where Session_ID = " + session.getSessionNb());
+                    SQL.endConnection();
                 }else{
                     lblPlayer1.setForeground(java.awt.Color.WHITE);
                     lblPlayer2.setForeground(java.awt.Color.WHITE);
                     lblQuestion.setText("Draw!");
+                    SQL.startConnection();
+                    SQL.execute("update ");
+                    SQL.endConnection();
                 }
             }
         }catch(Exception ex){
@@ -572,10 +596,12 @@ public class Game extends javax.swing.JFrame {
                     btnAnswer1.setForeground(java.awt.Color.GREEN);
                     if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
                         player1.AnsweredCorrectly();
+                        player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), true);
                         lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
                     }else{
                         if(!isSinglePlayer){
                             player2.AnsweredCorrectly();
+                            player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), true);
                             lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
                         }else{
                             pc.AnsweredCorrectly();
@@ -591,19 +617,31 @@ public class Game extends javax.swing.JFrame {
                     }else if(btnAnswer4.getText().equals(correctAnswer.toString())){
                         btnAnswer4.setForeground(java.awt.Color.GREEN);
                     }
+                    if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
+                        player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
+                    }else{
+                        if(!isSinglePlayer){
+                            player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
+                        }
+                    }
                 }
             }else if(sender.getText().equals(btnAnswer2.getText())){
                 if(sender.getText().equals(correctAnswer.toString())){
                     btnAnswer2.setForeground(java.awt.Color.GREEN);
                     if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
                         player1.AnsweredCorrectly();
+                        player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), true);
+                        player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
                         lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
                     }else{
                         if(!isSinglePlayer){
                             player2.AnsweredCorrectly();
+                            player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), true);
+                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
                         }else{
                             pc.AnsweredCorrectly();
+                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
                         }
                     }
@@ -616,19 +654,31 @@ public class Game extends javax.swing.JFrame {
                     }else if(btnAnswer4.getText().equals(correctAnswer.toString())){
                         btnAnswer4.setForeground(java.awt.Color.GREEN);
                     }
+                    if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
+                        player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
+                    }else{
+                        if(!isSinglePlayer){
+                            player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
+                        }
+                    }
                 }
             }else if(sender.getText().equals(btnAnswer3.getText())){
                 if(sender.getText().equals(correctAnswer.toString())){
                     btnAnswer3.setForeground(java.awt.Color.GREEN);
                     if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
                         player1.AnsweredCorrectly();
+                        player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), true);
+                        player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
                         lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
                     }else{
                         if(!isSinglePlayer){
                             player2.AnsweredCorrectly();
+                            player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), true);
+                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
                         }else{
                             pc.AnsweredCorrectly();
+                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
                         }
                     }
@@ -641,19 +691,31 @@ public class Game extends javax.swing.JFrame {
                     }else if(btnAnswer4.getText().equals(correctAnswer.toString())){
                         btnAnswer4.setForeground(java.awt.Color.GREEN);
                     }
+                    if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
+                        player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
+                    }else{
+                        if(!isSinglePlayer){
+                            player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
+                        }
+                    }
                 }
             }else if(sender.getText().equals(btnAnswer4.getText())){
                 if(sender.getText().equals(correctAnswer.toString())){
                     btnAnswer4.setForeground(java.awt.Color.GREEN);
                     if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
                         player1.AnsweredCorrectly();
+                        player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), true);
+                        player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
                         lblPlayer1Score.setText(String.format("%d", player1.getCorrectAnswers()));
                     }else{
                         if(!isSinglePlayer){
                             player2.AnsweredCorrectly();
+                            player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), true);
+                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", player2.getCorrectAnswers()));
                         }else{
                             pc.AnsweredCorrectly();
+                            player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
                             lblPlayer2Score.setText(String.format("%d", pc.getCorrectAnswers()));
                         }
                     }
@@ -665,6 +727,13 @@ public class Game extends javax.swing.JFrame {
                         btnAnswer1.setForeground(java.awt.Color.GREEN);
                     }else if(btnAnswer3.getText().equals(correctAnswer.toString())){
                         btnAnswer3.setForeground(java.awt.Color.GREEN);
+                    }
+                    if(lblPlayer1.getForeground().equals(java.awt.Color.BLUE)){
+                        player1.addAnswer(player1.getPlayer_id(), correctAnswer.getQuestionID(), false);
+                    }else{
+                        if(!isSinglePlayer){
+                            player2.addAnswer(player2.getPlayer_id(), correctAnswer.getQuestionID(), false);
+                        }
                     }
                 }
             }
@@ -740,6 +809,7 @@ public class Game extends javax.swing.JFrame {
         }
     }// </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="TimerClass"> 
     public class TimerClass implements java.awt.event.ActionListener{
         int counter;
         boolean isWaitTime = false;
@@ -795,5 +865,5 @@ public class Game extends javax.swing.JFrame {
                 }
             }
         }
-    }
+    }// </editor-fold>
 }

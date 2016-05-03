@@ -9,6 +9,20 @@ public class CorrectAnswer {
         this.value = value;
     }
     
+    public int getQuestionID(){
+        try{
+            SQL.startConnection();
+            java.sql.ResultSet rs = SQL.select("select Question_ID from view_cqa where Answer_ID = '" + value + "'");
+            if(rs.next()){
+                return rs.getInt("Question_ID");
+            }
+            SQL.endConnection();
+        }catch(java.sql.SQLException ex){
+            System.err.println(ex.getMessage());
+        }
+        return 0;
+    }
+    
     @Override
     public String toString(){
         return text;
