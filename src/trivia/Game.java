@@ -763,7 +763,7 @@ public class Game extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="MachineAnswer">
     private void MachineAnswer(){
         try{
-            int winChance = new java.util.Random().nextInt(1);
+            int winChance = new java.util.Random().nextInt(2);
             if(winChance == 1){
                 if(correctAnswer.toString().equals(btnAnswer1.getText())){
                     btnAnswer1.doClick();
