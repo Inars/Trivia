@@ -568,6 +568,9 @@ public class Game extends javax.swing.JFrame {
                     lblPlayer1.setForeground(java.awt.Color.WHITE);
                     lblPlayer2.setForeground(java.awt.Color.WHITE);
                     lblQuestion.setText("Close Call! Better Luck Next Time!");
+                    SQL.startConnection();
+                    SQL.execute("update sessions set Winner = -3 where Session_ID = " + session.getSessionNb());
+                    SQL.endConnection();
                 }
             }else{
                 if(player1.getCorrectAnswers() > player2.getCorrectAnswers()){

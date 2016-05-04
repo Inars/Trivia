@@ -137,6 +137,7 @@ public class ViewScores {
     private void ClearAll(java.awt.event.ActionEvent evt) {                                        
         SQL.startConnection();
         SQL.execute("delete from correct_answers where Player_ID <> 0");
+        SQL.execute("delete from playerscores where ID <> 0");
         SQL.execute("delete from players where Player_ID <> 0");
         SQL.execute("delete from sessions where Session_ID <> 0");
         RefreshData();

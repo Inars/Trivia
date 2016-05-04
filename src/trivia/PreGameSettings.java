@@ -41,8 +41,13 @@ public class PreGameSettings extends javax.swing.JDialog {
         lblPlayerName.setForeground(new java.awt.Color(0, 156, 0));
         lblPlayerName.setText("Player");
 
-        txtName.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        txtName.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         txtName.setForeground(new java.awt.Color(0, 156, 0));
+        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CheckKey(evt, txtName);
+            }
+        });
 
         btnStart.setBackground(new java.awt.Color(19, 19, 19));
         btnStart.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
@@ -128,15 +133,20 @@ public class PreGameSettings extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        lblPlayer2Name.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        lblPlayer2Name.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         lblPlayer2Name.setForeground(new java.awt.Color(0, 156, 0));
         lblPlayer2Name.setText("Player 2 Name");
 
-        txtName2.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        txtName2.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         txtName2.setForeground(new java.awt.Color(0, 156, 0));
+        txtName2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CheckKey(evt, txtName2);
+            }
+        });
 
         btnStart.setBackground(new java.awt.Color(19, 19, 19));
-        btnStart.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        btnStart.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         btnStart.setForeground(new java.awt.Color(0, 156, 0));
         btnStart.setText("Start");
         btnStart.addActionListener(new java.awt.event.ActionListener() {
@@ -146,7 +156,7 @@ public class PreGameSettings extends javax.swing.JDialog {
         });
 
         btnCancel.setBackground(new java.awt.Color(19, 19, 19));
-        btnCancel.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        btnCancel.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         btnCancel.setForeground(new java.awt.Color(0, 156, 0));
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -155,12 +165,17 @@ public class PreGameSettings extends javax.swing.JDialog {
             }
         });
 
-        lblPlayerName.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        lblPlayerName.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         lblPlayerName.setForeground(new java.awt.Color(0, 156, 0));
         lblPlayerName.setText("Player 1 Name");
 
-        txtName.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48)); // NOI18N
+        txtName.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 48));
         txtName.setForeground(new java.awt.Color(0, 156, 0));
+        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CheckKey(evt, txtName);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -239,5 +254,13 @@ public class PreGameSettings extends javax.swing.JDialog {
         game.setVisible(true);
         this.dispose();
         startup.dispose();
+    }//</editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="CheckKey">
+    private void CheckKey(java.awt.event.KeyEvent evt, javax.swing.JTextField sender) {                                       
+        if(sender.getText().length() >= 49){
+            evt.consume();
+            sender.setText(sender.getText().substring(0, sender.getText().length() - 1));
+        }
     }//</editor-fold>
 }
